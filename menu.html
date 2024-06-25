@@ -8,36 +8,62 @@
 </head>
 
 <body>
-        <main class="table" id="customers_table">
-            <section class="table__header">
+    <main class="table" id="customers_table">
+        <section class="table__header">
+            <h2>Menu</h2>
+            <button>Editar</button>
+            <button>Realizar pedido</button>
+        </section>
+        
+        <section class="table__body">
+            <table>
+                <thead>
+                    <tr>
+                        <th rowspan="2">N° REF</th>
+                        <th rowspan="2">MENU</th>
+                        <th colspan="4">SEMANAS</th>
+                    </tr>
+                    <tr>
+                        <th>1</th>
+                        <th>2</th>
+                        <th>3</th>
+                        <th>4</th>
+                    </tr>
+                </thead>
+                <tbody id="contenido-menu">
+                </tbody>
+            </table>
+            <section class="table__footer">
+                <form id="menuForm" class="menu-form">
+                    <h3>Editar Menú</h3>
+                    <label for="nombrePlato">Nombre del Plato</label>
+                    <input type="text" id="nombrePlato" required>
+            
+                    <label for="guarnicion">Guarnición</label>
+                    <select id="guarnicion" required>
+                        <!-- Opciones de guarniciones se pueden generar dinámicamente desde el JSON -->
+                    </select>
+            
+                    <label for="semana">Semana</label>
+                    <select id="semana" required>
+                        <option value="1">Semana 1</option>
+                        <option value="2">Semana 2</option>
+                        <option value="3">Semana 3</option>
+                        <option value="4">Semana 4</option>
+                    </select>
+            
+                    <div class="form-buttons">
+                        <button type="submit" id="guardarPlato">Guardar</button>
+                        <button type="button" id="eliminarPlato">Eliminar</button>
+                        <button type="button" id="cancelarAccion">Cancelar</button>
+                    </div>
+                </form>
 
+                
             </section>
             
-            <section class="table__body">
-                <table>
-                    <thead>
-                        <tr>
-                            <th id="" rowspan="2">N° REF</th>
-                            <th id="" rowspan="2">MENU</th>
-                            <th id="" colspan="4">SEMANAS</th>
-                        </tr>
-                        <tr>
-                            <th id="">1</th>
-                            <th id="">2</th>
-                            <th id="">3</th>
-                            <th id="">4</th>
-                        </tr>
-                    </thead>
-                    <tbody id="contenido-menu">
-                  
-                     
-                    </tbody>
-                </table>
-            </section>
-        </main>
-        
-
-
+        </section>
+    </main>
     <script src="js/menu.js"></script>
 </body>
 </html>

@@ -245,3 +245,75 @@ thead th.active,tbody td.active {
 
 
 
+/* Estilos para los botones */
+.table__header button {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    background-color: #ff6347; /* Color rojo-anaranjado amanecer */
+    color: white;
+    border: none;
+    border-radius: 1.2rem; /* Más redondeados */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.table__header button:hover {
+    background-color: #ff5733; /* Color de fondo al pasar el ratón */
+}
+
+
+
+
+.table__footer {
+    margin-top: 1rem;
+    padding: 1rem;
+    background-color: #fff4;
+    border-radius: 0.6rem;
+    box-shadow: 0 0.2rem 0.4rem rgba(0, 0, 0, 0.1);
+}
+
+.menu-form {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.menu-form h3 {
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+.menu-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+.menu-form input,
+.menu-form select {
+    width: calc(100% - 20px);
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 0.3rem;
+}
+
+.form-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+}
+
+.form-buttons button {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    background-color: #ff6347; /* Color rojo-anaranjado amanecer */
+    color: white;
+    border: none;
+    border-radius: 0.8rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.form-buttons button:hover {
+    background-color: #ff5733; /* Color de fondo al pasar el ratón */
+}

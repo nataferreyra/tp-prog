@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="pedidos-content">
+        <h2>Gestión de Pedidos</h2>
+        <button id="add-pedido-button">Agregar Pedido</button>
+        <input type="number" id="filter-semana" placeholder="Filtrar por semana">
+        <table id="pedidos-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Empleado</th>
+                    <th>Semana</th>
+                    <th>Platos</th>
+                    <th>Fecha</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="pedidos-body">
+                <!-- Aquí se mostrarán los pedidos -->
+            </tbody>
+        </table>
+    </div>
+
+    <div id="pedido-form-container" style="display: none;">
+        <form id="pedido-form">
+            <input type="hidden" id="pedido-id">
+            <select id="pedido-semana">
+                <option value="1">Semana 1</option>
+                <option value="2">Semana 2</option>
+                <option value="3">Semana 3</option>
+                <option value="4">Semana 4</option>
+            </select>
+            <div id="pedido-platos">
+                <!-- Aquí se agregarán los selects para los platos -->
+            </div>
+            <button type="submit">Guardar Pedido</button>
+        </form>
+    </div>
+
+    <script src="js/pedido.js"></script>
+</body>
+</html>

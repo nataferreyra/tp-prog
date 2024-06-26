@@ -158,12 +158,6 @@
     {
       "id": "26",
       "nombre_comida": "Canelones de Verdura"
-    },
-    {
-      "id": "8fde",
-      "nombre": "Milanesa de milanesa",
-      "guarnicionId": "4",
-      "semana": "3"
     }
   ],
   "guarnicion": [
@@ -383,6 +377,66 @@
         }
       ],
       "id": "2"
+    },
+    {
+      "id": "d96e",
+      "id_semana": "3",
+      "dia": [
+        {
+          "id_comida": [
+            "15"
+          ],
+          "id_guarnicion": [
+            "3"
+          ]
+        },
+        {
+          "id_comida": [],
+          "id_guarnicion": []
+        },
+        {
+          "id_comida": [],
+          "id_guarnicion": []
+        },
+        {
+          "id_comida": [],
+          "id_guarnicion": []
+        },
+        {
+          "id_comida": [],
+          "id_guarnicion": []
+        }
+      ]
+    },
+    {
+      "id": "b2d3",
+      "id_semana": "1",
+      "dia": [
+        {
+          "id_comida": [
+            "20"
+          ],
+          "id_guarnicion": [
+            "3"
+          ]
+        },
+        {
+          "id_comida": [],
+          "id_guarnicion": []
+        },
+        {
+          "id_comida": [],
+          "id_guarnicion": []
+        },
+        {
+          "id_comida": [],
+          "id_guarnicion": []
+        },
+        {
+          "id_comida": [],
+          "id_guarnicion": []
+        }
+      ]
     }
   ],
   "pedido_menu_actual": [

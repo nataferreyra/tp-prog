@@ -3,46 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Realizar Pedido</title>
+    <link rel="stylesheet" href="css/estilosPedido.css">
 </head>
 <body>
-    <div id="pedidos-content">
-        <h2>Gestión de Pedidos</h2>
-        <button id="add-pedido-button">Agregar Pedido</button>
-        <input type="number" id="filter-semana" placeholder="Filtrar por semana">
-        <table id="pedidos-table">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Empleado</th>
-                    <th>Semana</th>
-                    <th>Platos</th>
-                    <th>Fecha</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody id="pedidos-body">
-                <!-- Aquí se mostrarán los pedidos -->
-            </tbody>
-        </table>
-    </div>
+    <header>
+       
+    </header>
+    <main>
+        <section id="pedidosList">
+            <h2>Pedidos Actuales</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Semana</th>
+                        <th>Día</th>
+                        <th>Comida</th>
+                        <th>Guarnición</th>
+                    </tr>
+                </thead>
+                <tbody id="pedidosTableBody">
+               
+                </tbody>
+            </table>
+            </section>
 
-    <div id="pedido-form-container" style="display: none;">
-        <form id="pedido-form">
-            <input type="hidden" id="pedido-id">
-            <select id="pedido-semana">
-                <option value="1">Semana 1</option>
-                <option value="2">Semana 2</option>
-                <option value="3">Semana 3</option>
-                <option value="4">Semana 4</option>
-            </select>
-            <div id="pedido-platos">
-                <!-- Aquí se agregarán los selects para los platos -->
-            </div>
-            <button type="submit">Guardar Pedido</button>
-        </form>
-    </div>
+            <section id="proximosPedidos">
+                <h2>Pedidos Próximos</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Semana</th>
+                            <th>Día</th>
+                            <th>Comida</th>
+                            <th>Guarnición</th>
+                        </tr>
+                    </thead>
+                    <tbody id="proximosPedidosTableBody">
+              
+                    </tbody>
+                </table>
+            </section>
 
+            <section id="altaModificacion">
+                <h2>Agregar pedido</h2>
+                <form id="pedidoForm">
+                    <div>
+                        <label for="semana">Semana:</label>
+                        <select id="semana" name="semana" required>
+                            <option value="1">Semana 1</option>
+                            <option value="2">Semana 2</option>
+                            <option value="3">Semana 3</option>
+                            <option value="4">Semana 4</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="dia">Día:</label>
+                        <select id="dia" name="dia" required>
+                            <option value="1">Día 1</option>
+                            <option value="2">Día 2</option>
+                            <option value="3">Día 3</option>
+                            <option value="4">Día 4</option>
+                            <option value="5">Día 5</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="plato">Comida:</label>
+                        <select id="plato" name="plato" required>
+                  
+                        </select>
+                    </div>
+                    <div>
+                        <label for="guarnicion">Guarnición:</label>
+                        <select id="guarnicion" name="guarnicion">
+                    
+                        </select>
+                    </div>
+                    <button type="submit">Agregar Pedido</button>
+                </form>
+            </section>
+    </main>
     <script src="js/pedido.js"></script>
 </body>
 </html>

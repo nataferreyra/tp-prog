@@ -11,8 +11,8 @@
     <main class="table" id="customers_table">
         <section class="table__header">
             <h2>Menu</h2>
-            <button>Editar</button>
-            <button>Realizar pedido</button>
+            <button id="editarBtn">Editar</button>
+            <button id="realizarPedido">Realizar pedido</button>
         </section>
         
         <section class="table__body">
@@ -22,6 +22,7 @@
                         <th rowspan="2">N° REF</th>
                         <th rowspan="2">MENU</th>
                         <th colspan="4">SEMANAS</th>
+                        <th rowspan="2">Acciones</th> <!-- Nueva columna para acciones -->
                     </tr>
                     <tr>
                         <th>1</th>
@@ -41,7 +42,7 @@
             
                     <label for="guarnicion">Guarnición</label>
                     <select id="guarnicion" required>
-                        <!-- Opciones de guarniciones se pueden generar dinámicamente desde el JSON -->
+                      
                     </select>
             
                     <label for="semana">Semana</label>
@@ -54,14 +55,11 @@
             
                     <div class="form-buttons">
                         <button type="submit" id="guardarPlato">Guardar</button>
-                        <button type="button" id="eliminarPlato">Eliminar</button>
+                       
                         <button type="button" id="cancelarAccion">Cancelar</button>
                     </div>
                 </form>
-
-                
             </section>
-            
         </section>
     </main>
     <script src="js/menu.js"></script>

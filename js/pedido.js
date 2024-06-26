@@ -1,177 +1,189 @@
-document.addEventListener('DOMContentLoaded', async () => {
-    // Código de manejo del menú...
+document.addEventListener("DOMContentLoaded", function() {
+    const baseUrl = 'http://localhost:3000';
 
-    // Código para manejo de pedidos
-    const pedidosContent = document.getElementById('pedidos-content');
-    const addPedidoButton = document.getElementById('add-pedido-button');
-    const filterSemanaInput = document.getElementById('filter-semana');
-    const pedidosTableBody = document.getElementById('pedidos-body');
-    const pedidoFormContainer = document.getElementById('pedido-form-container');
-    const pedidoForm = document.getElementById('pedido-form');
-    const pedidoSemanaSelect = document.getElementById('pedido-semana');
-    const pedidoPlatosContainer = document.getElementById('pedido-platos');
-    const pedidoIdInput = document.getElementById('pedido-id');
-
-    const user = JSON.parse(localStorage.getItem('user'));
-    if (!user) {
-        window.location.href = 'login.html';
-        return;
+    async function fetchData(endpoint) {
+        const response = await fetch(`${baseUrl}/${endpoint}`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return await response.json();
     }
 
-    const esRRHH = user.id_rol === "1"; // ID del rol RRHH
+    async function fetchComidaAndGuarnicion() {
+        const [comida, guarnicion] = await Promise.all([
+            fetchData('comida'),
+            fetchData('guarnicion')
+        ]);
+        return { comida, guarnicion };
+    }
 
-    async function fetchPedidos() {
+    async function fetchPedidosActuales() {
+        const pedidos = await fetchData('pedido_menu_actual');
+        return pedidos;
+    }
+
+    async function fetchProximosPedidos() {
+        const proximosPedidos = await fetchData('pedido_menu_proximo');
+        return proximosPedidos;
+    }
+
+    async function populatePedidosTable() {
+        const pedidosTableBody = document.getElementById('pedidosTableBody');
         try {
-            const response = await fetch('http://localhost:3000/pedidos');
-            const pedidos = await response.json();
-            return pedidos;
+            const pedidos = await fetchPedidosActuales();
+            const { comida, guarnicion } = await fetchComidaAndGuarnicion();
+
+            pedidos.forEach(pedido => {
+                pedido.dia.forEach((dia, diaIndex) => {
+                    if (dia.id_comida.length > 0 || dia.id_guarnicion.length > 0) {
+                        let comidaNombres = dia.id_comida.map(id => {
+                            let comidaItem = comida.find(c => c.id === id);
+                            return comidaItem ? comidaItem.nombre_comida : "Desconocido";
+                        }).join(", ");
+
+                        let guarnicionNombres = dia.id_guarnicion.map(id => {
+                            let guarnicionItem = guarnicion.find(g => g.id === id);
+                            return guarnicionItem ? guarnicionItem.nombre_guarnicion : "Desconocido";
+                        }).join(", ");
+
+                        let row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>Semana ${pedido.id_semana}</td>
+                            <td>Día ${diaIndex + 1}</td>
+                            <td>${comidaNombres}</td>
+                            <td>${guarnicionNombres}</td>
+                        `;
+                        pedidosTableBody.appendChild(row);
+                    }
+                });
+            });
         } catch (error) {
-            console.error('Error fetching pedidos:', error);
-            return [];
+            console.error('Error fetching data:', error.message);
         }
     }
 
-    async function fetchComida() {
+    async function populateProximosPedidosTable() {
+        const proximosPedidosTableBody = document.getElementById('proximosPedidosTableBody');
         try {
-            const response = await fetch('http://localhost:3000/comida');
-            const comida = await response.json();
-            return comida;
+            const proximosPedidos = await fetchProximosPedidos();
+            const { comida, guarnicion } = await fetchComidaAndGuarnicion();
+
+            proximosPedidos.forEach(pedido => {
+                pedido.dia.forEach((dia, diaIndex) => {
+                    if (dia.id_comida.length > 0 || dia.id_guarnicion.length > 0) {
+                        let comidaNombres = dia.id_comida.map(id => {
+                            let comidaItem = comida.find(c => c.id === id);
+                            return comidaItem ? comidaItem.nombre_comida : "Desconocido";
+                        }).join(", ");
+
+                        let guarnicionNombres = dia.id_guarnicion.map(id => {
+                            let guarnicionItem = guarnicion.find(g => g.id === id);
+                            return guarnicionItem ? guarnicionItem.nombre_guarnicion : "Desconocido";
+                        }).join(", ");
+
+                        let row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>Semana ${pedido.id_semana}</td>
+                            <td>Día ${diaIndex + 1}</td>
+                            <td>${comidaNombres}</td>
+                            <td>${guarnicionNombres}</td>
+                        `;
+                        proximosPedidosTableBody.appendChild(row);
+                    }
+                });
+            });
         } catch (error) {
-            console.error('Error fetching comida:', error);
-            return [];
+            console.error('Error fetching data:', error.message);
         }
     }
 
-    function renderPedidos(pedidos) {
-        pedidosTableBody.innerHTML = '';
-        pedidos.forEach(pedido => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${pedido.id}</td>
-                <td>${pedido.empleadoId}</td>
-                <td>${pedido.semana}</td>
-                <td>${pedido.platos.map(p => p.nombre).join(', ')}</td>
-                <td>${new Date(pedido.fecha).toLocaleDateString()}</td>
-                <td>
-                    <button class="edit-pedido-button" data-id="${pedido.id}">Editar</button>
-                    ${esRRHH ? `<button class="delete-pedido-button" data-id="${pedido.id}">Eliminar</button>` : ''}
-                </td>
-            `;
-            pedidosTableBody.appendChild(row);
-        });
+    async function populatePlatoSelect() {
+        const platoSelect = document.getElementById('plato');
+        try {
+            const { comida } = await fetchComidaAndGuarnicion();
 
-        document.querySelectorAll('.edit-pedido-button').forEach(button => {
-            button.addEventListener('click', handleEditPedido);
-        });
-
-        document.querySelectorAll('.delete-pedido-button').forEach(button => {
-            button.addEventListener('click', handleDeletePedido);
-        });
+            comida.forEach(comidaItem => {
+                let option = document.createElement('option');
+                option.value = comidaItem.id;
+                option.textContent = comidaItem.nombre_comida;
+                platoSelect.appendChild(option);
+            });
+        } catch (error) {
+            console.error('Error fetching comida data:', error.message);
+        }
     }
 
-    async function loadPedidos() {
-        const pedidos = await fetchPedidos();
-        renderPedidos(pedidos);
+    async function populateGuarnicionSelect() {
+        const guarnicionSelect = document.getElementById('guarnicion');
+        try {
+            const { guarnicion } = await fetchComidaAndGuarnicion();
+
+            guarnicion.forEach(guarnicionItem => {
+                let option = document.createElement('option');
+                option.value = guarnicionItem.id;
+                option.textContent = guarnicionItem.nombre_guarnicion;
+                guarnicionSelect.appendChild(option);
+            });
+        } catch (error) {
+            console.error('Error fetching guarnicion data:', error.message);
+        }
     }
 
-    addPedidoButton.addEventListener('click', () => {
-        pedidoForm.reset();
-        pedidoFormContainer.style.display = 'block';
-        loadComidaOptions();
-    });
-
-    filterSemanaInput.addEventListener('input', async () => {
-        const semana = filterSemanaInput.value;
-        const pedidos = await fetchPedidos();
-        const filteredPedidos = pedidos.filter(p => p.semana == semana);
-        renderPedidos(filteredPedidos);
-    });
-
-    pedidoForm.addEventListener('submit', async (event) => {
+    async function handleFormSubmit(event) {
         event.preventDefault();
-        const pedidoId = pedidoIdInput.value;
-        const semana = pedidoSemanaSelect.value;
-        const platos = [];
-        pedidoPlatosContainer.querySelectorAll('select').forEach(select => {
-            if (select.value) {
-                platos.push({ dia: select.dataset.dia, comidaId: select.value });
-            }
-        });
 
-        const requestData = {
-            empleadoId: user.id,
-            semana,
-            platos
+        const semanaSelect = document.getElementById('semana');
+        const diaSelect = document.getElementById('dia');
+        const platoSelect = document.getElementById('plato');
+        const guarnicionSelect = document.getElementById('guarnicion');
+
+        const nuevoPedido = {
+            id_semana: semanaSelect.value,
+            dia: [
+                { id_comida: [platoSelect.value], id_guarnicion: [guarnicionSelect.value] },
+                { id_comida: [], id_guarnicion: [] },
+                { id_comida: [], id_guarnicion: [] },
+                { id_comida: [], id_guarnicion: [] },
+                { id_comida: [], id_guarnicion: [] }
+            ]
         };
 
-        if (pedidoId) {
-            await fetch(`http://localhost:3000/pedidos/${pedidoId}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(requestData)
-            });
-        } else {
-            await fetch('http://localhost:3000/pedidos', {
+        try {
+            const response = await fetch(`${baseUrl}/pedido_menu_proximo`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(requestData)
+                body: JSON.stringify(nuevoPedido)
             });
-        }
 
-        pedidoFormContainer.style.display = 'none';
-        loadPedidos();
-    });
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
 
-    async function loadComidaOptions() {
-        const comida = await fetchComida();
-        pedidoPlatosContainer.innerHTML = '';
-        for (let dia = 1; dia <= 5; dia++) {
-            const select = document.createElement('select');
-            select.dataset.dia = dia;
-            select.innerHTML = '<option value="">Seleccione un plato</option>';
-            comida.forEach(c => {
-                const option = document.createElement('option');
-                option.value = c.id;
-                option.textContent = c.nombre_comida;
-                select.appendChild(option);
-            });
-            const label = document.createElement('label');
-            label.textContent = `Día ${dia}: `;
-            label.appendChild(select);
-            pedidoPlatosContainer.appendChild(label);
+            semanaSelect.selectedIndex = 0;
+            diaSelect.selectedIndex = 0;
+            platoSelect.selectedIndex = 0;
+            guarnicionSelect.selectedIndex = 0;
+
+            await populatePedidosTable();
+            await populateProximosPedidosTable();
+        } catch (error) {
+            console.error('Error submitting form:', error.message);
         }
     }
 
-    async function handleEditPedido(event) {
-        const pedidoId = event.target.dataset.id;
-        const pedidos = await fetchPedidos();
-        const pedido = pedidos.find(p => p.id == pedidoId);
-        if (pedido) {
-            pedidoIdInput.value = pedido.id;
-            pedidoSemanaSelect.value = pedido.semana;
-            loadComidaOptions().then(() => {
-                pedido.platos.forEach(plato => {
-                    const select = pedidoPlatosContainer.querySelector(`select[data-dia="${plato.dia}"]`);
-                    if (select) {
-                        select.value = plato.comidaId;
-                    }
-                });
-            });
-            pedidoFormContainer.style.display = 'block';
-        }
+    async function init() {
+        await Promise.all([
+            populatePedidosTable(),
+            populateProximosPedidosTable(),
+            populatePlatoSelect(),
+            populateGuarnicionSelect()
+        ]);
+
+        const pedidoForm = document.getElementById('pedidoForm');
+        pedidoForm.addEventListener('submit', handleFormSubmit);
     }
 
-    async function handleDeletePedido(event) {
-        const pedidoId = event.target.dataset.id;
-        await fetch(`http://localhost:3000/pedidos/${pedidoId}`, {
-            method: 'DELETE'
-        });
-        loadPedidos();
-    }
-
-    loadPedidos();
+    init();
 });

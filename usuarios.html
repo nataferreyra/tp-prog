@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Usuarios</title>
+    <link rel="stylesheet" href="css/estilosUsuarios.css">
+</head>
+<body>
+    <header>
+        <h1>Gestión de Usuarios</h1>
+    </header>
+    <main>
+        <section id="altaModificacion">
+            <h2>Gestion de usuarios</h2>
+            <form id="usuarioForm">
+                <div>
+                    <label for="nombreUsuario">Usuario:</label>
+                    <input type="text" id="nombreUsuario" name="nombreUsuario" required>
+                </div>
+                <div>
+                    <label for="rol">Rol:</label>
+                    <select id="rol" name="rol" required>
+                 
+                    </select>
+                </div>
+                <button id="guardarUsuarioBtn">Guardar Usuario</button>
+            </form>
+        </section>
+
+  
+        <section id="usuariosList">
+            <h2>Usuarios Actuales</h2>
+            <table id="usuariosTable">
+                <thead>
+                    <tr>
+                        <th>Usuario</th>
+                        <th>Rol</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="usuariosTableBody">
+                  
+                </tbody>
+            </table>
+        </section>
+    </main>
+    <script src="js/usuarios.js"></script>
+</body>
+</html>

@@ -1,4 +1,3 @@
-//          ====Mostar/ocultar contraseña====
 const mostratContrasenia = (contrasenia, ojoLogin) =>{
     const input = document.getElementById(contrasenia),
           iconoOjo = document.getElementById(ojoLogin)
@@ -20,7 +19,6 @@ const mostratContrasenia = (contrasenia, ojoLogin) =>{
  }
  mostratContrasenia('contrasenia','ojoLogin')
 
-//          ====Valida que sea un usario existente en el json====
 document.getElementById('login-form').addEventListener('submit', async (e) => {
     e.preventDefault();
     const username = document.getElementById('login-email').value;
